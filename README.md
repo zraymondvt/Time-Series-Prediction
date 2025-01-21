@@ -75,6 +75,13 @@ python main.py \
    The hybrid Transformer-ESN model is trained on the processed dataset with specified hyperparameters.
 ---
 
+## Results
+Below is a visualization of the model's performance:
+
+![Results Figure](results_figure.png)
+
+---
+
 ## Contributions
 Feel free to fork this repository, report issues, or submit pull requests to improve the framework.
 
