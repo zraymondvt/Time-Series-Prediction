@@ -1,0 +1,10 @@
+numpy==1.26.4
+pandas==2.1.1
+scikit-learn==1.6.1
+scipy==1.13.1
+matplotlib==3.10.0
+torch==2.1.0
+torchvision==0.16.0
+statsmodels==0.14.4
+tqdm==4.67.0
+kagglehub==0.3.6
