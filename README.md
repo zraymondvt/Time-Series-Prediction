@@ -73,10 +73,6 @@ python main.py \
 
 3. **Model Training**:
    The hybrid Transformer-ESN model is trained on the processed dataset with specified hyperparameters.
-
-4. **Results**:
-   The script outputs training and validation losses for each epoch. The best model is saved based on validation performance.
-
 ---
 
 ## Contributions
