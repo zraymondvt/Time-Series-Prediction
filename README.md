@@ -6,7 +6,7 @@
 ---
 
 ## Requirements
-- **Python Version**: 3.11  
+- **Python Version**: 3.11.11  
 
 Ensure you are using Python 3.11 for compatibility. Install the necessary dependencies using the `requirements.txt` file:
 
