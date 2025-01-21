@@ -1,7 +1,7 @@
 # Time Series Prediction for Large Scale Data
 
 ## Overview
-**Time Series Prediction** is a Python-based framework designed for efficient and flexible time series forecasting. It employs a hybrid architecture combining Transformers and Echo State Networks (ESN) to process large-scale datasets effectively. The project is structured for easy customization and experimentation with various hyperparameters.
+This project is a Python-based framework designed for efficient and flexible time series forecasting. It employs a hybrid architecture combining **Transformers** and **Echo State Networks (ESN)** to process large-scale datasets effectively. The project is structured for easy customization and experimentation with various hyperparameters.
 
 ---
 
