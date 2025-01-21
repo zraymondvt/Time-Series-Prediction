@@ -81,7 +81,7 @@ python main.py \
 ---
 
 ## Results
-Below is a visualization of the model's performance:
+Below is a visualization of the model's performance (MSE = 0.005):
 
 <img src="hybrid_transformer_plots.png"/>
 
