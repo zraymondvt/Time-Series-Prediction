@@ -2,33 +2,22 @@ import os
 import argparse
 import torch
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+import numpy as np
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from models import HybridTransformerESN
-from dataset import create_sequences, TimeSeriesDataset
+from dataset import TimeSeriesDataset
 from utils import log_cosh_loss
 from train import train_and_evaluate
-import kagglehub
 
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 torch.cuda.empty_cache()
 
 def main(args):
-    # Download dataset using kagglehub
-    print("Downloading dataset...")
-    path = kagglehub.dataset_download(args.dataset_name)
-    file_path = os.path.join(path, args.file_relative_path)
-    print(f"Dataset downloaded to: {file_path}")
-
-    # Load and preprocess data
-    print("Loading and preprocessing data...")
-    data = pd.read_csv(file_path)['Length'].values[:args.max_data]
-    scaler = MinMaxScaler()
-    data_scaled = scaler.fit_transform(data.reshape(-1, 1)).flatten()
-
-    X, y = create_sequences(data_scaled, args.sequence_length)
+    # Load data
+    X = np.load(os.path.join(args.input_folder, 'X.npy'))
+    y = np.load(os.path.join(args.input_folder, 'y.npy'))
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
     train_dataset = TimeSeriesDataset(X_train, y_train)
@@ -59,10 +48,11 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a Hybrid Transformer-ESN Model on 5G Traffic Data")
-    parser.add_argument('--dataset_name', type=str, default="kimdaegyeom/5g-traffic-datasets",
-                        help="Kaggle dataset identifier (default: 'kimdaegyeom/5g-traffic-datasets')")
-    parser.add_argument('--file_relative_path', type=str, default="5G_Traffic_Datasets/Video_Conferencing/Zoom/Zoom_1.csv",
-                        help="Relative file path inside the downloaded dataset (default: '5G_Traffic_Datasets/Video_Conferencing/Zoom/Zoom_1.csv')")
+    parser.add_argument('--input_folder', type=str, default='ds/npy-data', help='input directory')
+    # parser.add_argument('--dataset_name', type=str, default="kimdaegyeom/5g-traffic-datasets",
+    #                     help="Kaggle dataset identifier (default: 'kimdaegyeom/5g-traffic-datasets')")
+    # parser.add_argument('--file_relative_path', type=str, default="5G_Traffic_Datasets/Video_Conferencing/Zoom/Zoom_1.csv",
+    #                     help="Relative file path inside the downloaded dataset (default: '5G_Traffic_Datasets/Video_Conferencing/Zoom/Zoom_1.csv')")
     parser.add_argument('--sequence_length', type=int, default=65, help="Sequence length for time series data")
     parser.add_argument('--batch_size', type=int, default=128, help="Batch size for training")
     parser.add_argument('--d_model', type=int, default=64, help="Transformer model dimension")
