@@ -11,11 +11,20 @@ class HybridTransformerESN(nn.Module):
         self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_encoder_layers)
 
         self.reservoir_size = reservoir_size
-        self.input_weights = nn.Parameter(torch.randn(reservoir_size, d_model) * 0.1)
+        # self.input_weights = nn.Parameter(torch.randn(reservoir_size, d_model) * 0.1)
+        input_weights = torch.randn(reservoir_size, d_model) * 0.1
+        self.register_buffer("input_weights", input_weights)
 
-        self.reservoir_weights = nn.Parameter(torch.empty(reservoir_size, reservoir_size))
-        nn.init.orthogonal_(self.reservoir_weights)
-        self.reservoir_weights.data *= spectral_radius / torch.linalg.norm(self.reservoir_weights, ord=2)
+        # self.reservoir_weights = nn.Parameter(torch.empty(reservoir_size, reservoir_size))
+        # nn.init.orthogonal_(self.reservoir_weights)
+        # self.reservoir_weights.data *= spectral_radius / torch.linalg.norm(self.reservoir_weights, ord=2)
+
+        # Initialize reservoir weights as a tensor (not a Parameter)
+        reservoir_weights = torch.empty(reservoir_size, reservoir_size)
+        nn.init.orthogonal_(reservoir_weights)
+        reservoir_weights *= spectral_radius / torch.linalg.norm(reservoir_weights, ord=2)
+        # Register as a buffer (non-trainable)
+        self.register_buffer("reservoir_weights", reservoir_weights)
 
         mask = torch.rand(reservoir_size, reservoir_size) > sparsity
         self.reservoir_weights.data[mask] = 0
