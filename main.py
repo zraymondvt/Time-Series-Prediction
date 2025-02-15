@@ -28,6 +28,7 @@ def main(args):
 
     # Initialize model
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"Device: {device}")
     model = HybridTransformerESN(
         input_dim=1,
         d_model=args.d_model,
