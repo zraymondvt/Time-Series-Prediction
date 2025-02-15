@@ -1,11 +1,13 @@
 import torch
+from tqdm import tqdm
 
 def train_and_evaluate(model, train_loader, test_loader, criterion, optimizer, scheduler, device, n_epoch, patience):
     train_losses, test_losses = [], []
     best_test_loss = float('inf')
     early_stop_counter = 0
 
-    for epoch in range(n_epoch):
+    print("Training the model...")
+    for epoch in tqdm(range(n_epoch)):
         model.train()
         train_loss = 0
 
